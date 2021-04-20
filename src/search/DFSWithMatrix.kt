@@ -1,5 +1,7 @@
 package search
 
+import java.util.*
+
 // Depth First Search - 깊이 우선 탐색
 // 인접 행렬과 재귀함수를 이용하여
 
@@ -22,7 +24,8 @@ fun main() {
     addGraph(4, 5)
     addGraph(6, 7)
 
-    dfs(1)
+    // dfs(1) // 1 2 3 6 7 4 5
+    dfsIteratively(1) // 1 3 7 6 2 5 4 =
 }
 
 private fun addGraph(a: Int, b:Int) {
@@ -50,4 +53,22 @@ private fun dfs(index: Int) {
 //        }
 //
 //    }
+}
+
+private fun dfsIteratively(index: Int) {
+    visited[index] = true
+
+    val stack = Stack<Int>()
+    stack.push(index)
+
+    while (stack.isNotEmpty()) {
+        val popped = stack.pop()
+        print("$popped ")
+        graph[popped].forEachIndexed { idx, isAdj ->
+            if (isAdj != 0 && visited[idx] == false) {
+                visited[idx] = true
+                stack.push(idx)
+            }
+        }
+    }
 }
